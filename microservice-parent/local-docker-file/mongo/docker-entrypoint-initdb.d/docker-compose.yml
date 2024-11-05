@@ -1,0 +1,67 @@
+#----------------------------------------------------------------
+# 1. docker-compose -p microservices-comp3095-ecommerce -f docker.yml up -d
+#
+#
+#
+#-------------------------------------------------------------------
+
+
+version: '3.9'
+
+services:
+
+#  product-service:
+#    image: product-service
+#    ports:
+#      - "8084:8084"
+#    build:
+#      context: ./product-service
+#      dockerfile: ./Dockerfile
+#    container_name: product-service
+#    environment:
+#      SPRING_PROFILES_ACTIVE: docker
+#    depends_on:
+#      - mongodb
+#    networks:
+#      - spring
+
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - ./docker-entrypoint-initdb.d/mongo-ini.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - ./db-data:/data/db
+    container_name: mongodb
+    networks:
+      - spring
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+      - -ME_CONFIG_MONGODB_SERVER=mongo-db
+    container_name: mongo-express
+    depends_on:
+      - mongodb
+    networks:
+      - spring
+
+#volumes:
+#  mongo-db:
+#    driver: local
+#
+#networks:
+#  spring:
+#    driver: bridge
+
+
+
+

@@ -12,7 +12,7 @@ services:
       - POSTGRES_PASSWORD=password
     volumes:
       - ./data/order:/var/lib/postgresql/data
-      - ./init/postgres/order/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./init/order/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   pgadmin:
     image: dpage/pgadmin4
@@ -21,6 +21,6 @@ services:
     container_name: pgadmin-single
     environment:
       - PGADMIN_DEFAULT_EMAIL=user@admin.ca
-      - PGADMIN_DEFAULT_PASSWORD-password
+      - PGADMIN_DEFAULT_PASSWORD=password
 
 
